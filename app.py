@@ -6,13 +6,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Streamlit Default UI ------------------
+# ------------------ Hide Extra Streamlit UI ------------------
 st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
-[data-testid="stSidebarNav"] {display: none;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -20,35 +19,17 @@ header {visibility: hidden;}
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
-if "menu_open" not in st.session_state:
-    st.session_state.menu_open = False
+# ------------------ SIDEBAR (ALWAYS VISIBLE) ------------------
+st.sidebar.title("Menu")
 
-# ------------------ TOP-LEFT ☰ BUTTON ------------------
-menu = st.button("☰", key="menu_btn")
+if st.sidebar.button("🏠 Home"):
+    st.session_state.page = "Home"
 
-if menu:
-    st.session_state.menu_open = not st.session_state.menu_open
-    st.rerun()
+if st.sidebar.button("📖 Journey of a Young Mind"):
+    st.session_state.page = "Journey"
 
-# ------------------ SIDEBAR CONTENT ------------------
-if st.session_state.menu_open:
-    with st.sidebar:
-        st.title("Menu")
-
-        if st.button("🏠 Home"):
-            st.session_state.page = "Home"
-            st.session_state.menu_open = False
-            st.rerun()
-
-        if st.button("📖 Journey of a Young Mind"):
-            st.session_state.page = "Journey"
-            st.session_state.menu_open = False
-            st.rerun()
-
-        if st.button("😊 Smiley"):
-            st.session_state.page = "Smiley"
-            st.session_state.menu_open = False
-            st.rerun()
+if st.sidebar.button("😊 Smiley"):
+    st.session_state.page = "Smiley"
 
 # ------------------ MAIN CONTENT ------------------
 if st.session_state.page == "Home":
@@ -64,3 +45,4 @@ elif st.session_state.page == "Journey":
 elif st.session_state.page == "Smiley":
     st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
     st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+
