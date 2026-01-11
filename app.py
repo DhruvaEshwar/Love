@@ -15,15 +15,15 @@ st.markdown(
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    /* Menu button (top-left) */
+    /* Menu button - absolute top-left */
     .menu-btn {
         position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 1001;
+        top: 8px;
+        left: 8px;
+        z-index: 2001;
     }
 
-    /* Side menu panel */
+    /* Side menu */
     .side-menu {
         position: fixed;
         top: 0;
@@ -33,7 +33,13 @@ st.markdown(
         background-color: #f9f9f9;
         padding: 20px;
         box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-        z-index: 1000;
+        z-index: 2000;
+    }
+
+    /* Push content right when menu is open */
+    .content-shift {
+        margin-left: 260px;
+        transition: margin-left 0.2s ease;
     }
     </style>
     """,
@@ -47,16 +53,15 @@ if "page" not in st.session_state:
 if "menu_open" not in st.session_state:
     st.session_state.menu_open = False
 
-# ------------------ Menu Button (Top Left) ------------------
+# ------------------ Menu Button ------------------
 st.markdown('<div class="menu-btn">', unsafe_allow_html=True)
 if st.button("☰"):
     st.session_state.menu_open = not st.session_state.menu_open
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ------------------ Side Menu (LEFT SLIDE PANEL) ------------------
+# ------------------ Side Menu ------------------
 if st.session_state.menu_open:
     st.markdown('<div class="side-menu">', unsafe_allow_html=True)
-
     st.markdown("### Menu")
 
     if st.button("🏠 Home"):
@@ -73,6 +78,11 @@ if st.session_state.menu_open:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
+# ------------------ Content Wrapper ------------------
+content_class = "content-shift" if st.session_state.menu_open else ""
+
+st.markdown(f'<div class="{content_class}">', unsafe_allow_html=True)
+
 # ------------------ Pages ------------------
 if st.session_state.page == "Home":
     st.markdown(
@@ -87,3 +97,5 @@ elif st.session_state.page == "Journey":
 elif st.session_state.page == "Smiley":
     st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
     st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+
+st.markdown('</div>', unsafe_allow_html=True)
