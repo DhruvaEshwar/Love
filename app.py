@@ -39,11 +39,10 @@ if st.session_state.page == "Home":
     if not st.session_state.authenticated:
         st.write("🔒 Enter Passcode to access Home page:")
         password_input = st.text_input("Passcode", type="password")
-        if st.button("Enter"):
+        if st.button("Enter Passcode"):
             if password_input == HOME_PASSWORD:
                 st.session_state.authenticated = True
-                st.success("✅ Access granted!")
-                st.experimental_rerun()
+                st.success("✅ Access granted! Refresh page to see content.")
             else:
                 st.error("❌ Incorrect passcode")
     else:
@@ -60,4 +59,3 @@ elif st.session_state.page == "Journey":
 elif st.session_state.page == "Smiley":
     st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
     st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
