@@ -5,33 +5,43 @@ st.set_page_config(
     page_title="Love in the Line of Fire",
     layout="centered"
 )
+
+# ------------------ Hide Streamlit UI ------------------
 st.markdown(
     """
     <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    header [data-testid="stToolbar"] {visibility: hidden;}
     </style>
     """,
     unsafe_allow_html=True
 )
 
-
-
 # ------------------ Session State ------------------
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
+if "menu_open" not in st.session_state:
+    st.session_state.menu_open = True   # menu opens on first load
+
+# ------------------ Top Menu Toggle Button ------------------
+if st.button("☰ Menu"):
+    st.session_state.menu_open = not st.session_state.menu_open
+
 # ------------------ Sidebar Menu (BUTTONS) ------------------
-st.sidebar.title("Menu")
+if st.session_state.menu_open:
+    with st.sidebar:
+        st.title("Menu")
 
-if st.sidebar.button("🏠 Home"):
-    st.session_state.page = "Home"
+        if st.button("🏠 Home"):
+            st.session_state.page = "Home"
 
-if st.sidebar.button("📖 Journey of a Young Mind"):
-    st.session_state.page = "Journey"
+        if st.button("📖 Journey of a Young Mind"):
+            st.session_state.page = "Journey"
 
-if st.sidebar.button("😊 Smiley"):
-    st.session_state.page = "Smiley"
+        if st.button("😊 Smiley"):
+            st.session_state.page = "Smiley"
 
 # ------------------ Pages ------------------
 if st.session_state.page == "Home":
