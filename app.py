@@ -23,18 +23,18 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 # ------------------ PASSWORD ------------------
-HOME_PASSWORD = "1234"  # 🔑 Change this to your desired password
+HOME_PASSWORD = "1234"  # 🔑 Change this to your password
 
 # ------------------ AUTHENTICATION ------------------
 if not st.session_state.authenticated:
     st.write("🔒 Enter Passcode to access the website:")
     password_input = st.text_input("Passcode", type="password", key="pwd")
-    enter = st.button("Enter Passcode")
-    if enter and password_input == HOME_PASSWORD:
-        st.session_state.authenticated = True
-        st.success("✅ Access granted!")
-    elif enter and password_input != HOME_PASSWORD:
-        st.error("❌ Incorrect passcode")
+    if st.button("Enter Passcode"):
+        if password_input == HOME_PASSWORD:
+            st.session_state.authenticated = True
+            st.success("✅ Access granted!")
+        else:
+            st.error("❌ Incorrect passcode")
 
 # ------------------ MAIN WEBSITE (ONLY AFTER AUTH) ------------------
 if st.session_state.authenticated:
