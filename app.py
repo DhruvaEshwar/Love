@@ -6,29 +6,23 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Top Right Menu and Footer ------------------
+# ------------------ Hide Top Right Buttons ------------------
 st.markdown("""
 <style>
-/* Hide Streamlit menu (three dots) */
-#MainMenu {visibility: hidden;}
-
-/* Hide footer */
-footer {visibility: hidden;}
-
-/* Hide top-right Fork/GitHub buttons on Streamlit Cloud */
-[data-testid="stToolbar"] {visibility: hidden !important;}
+#MainMenu {visibility: hidden;}  /* hides three dots menu */
+footer {visibility: hidden;}    /* hides footer */
+[data-testid="stToolbar"] {visibility: hidden !important;} /* hides fork/github buttons on Streamlit Cloud */
 </style>
 """, unsafe_allow_html=True)
 
 # ------------------ Session State ------------------
 if "page" not in st.session_state:
     st.session_state.page = "Home"
-
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 # ------------------ PASSWORD ------------------
-HOME_PASSWORD = "1234"  # 🔑 Change this to your password
+HOME_PASSWORD = "1234"
 
 # ------------------ AUTHENTICATION ------------------
 if not st.session_state.authenticated:
@@ -40,15 +34,13 @@ if not st.session_state.authenticated:
             st.success("✅ Access granted!")
         else:
             st.error("❌ Incorrect passcode")
-    # Stop everything else until authenticated
     st.stop()
 
-# ------------------ MAIN WEBSITE (ONLY AFTER AUTH) ------------------
+# ------------------ LAYOUT: Fixed Left Menu ------------------
+col1, col2 = st.columns([1, 4])  # 1/5th sidebar, 4/5th main content
 
-# ------------------ Sidebar (Always Open) ------------------
-# Using container to mimic always-open sidebar
-with st.sidebar:
-    st.title("Menu")
+with col1:
+    st.markdown("## Menu")
     if st.button("🏠 Home"):
         st.session_state.page = "Home"
     if st.button("📖 Journey of a Young Mind"):
@@ -56,17 +48,16 @@ with st.sidebar:
     if st.button("😊 Smiley"):
         st.session_state.page = "Smiley"
 
-# ------------------ Main Content ------------------
-if st.session_state.page == "Home":
-    st.markdown(
-        "<h1 style='text-align:center;'>Love in the Line of Fire</h1>",
-        unsafe_allow_html=True
-    )
-
-elif st.session_state.page == "Journey":
-    st.markdown("<h1>Journey of a Young Mind</h1>", unsafe_allow_html=True)
-    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
-elif st.session_state.page == "Smiley":
-    st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
-    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+with col2:
+    # ------------------ Main Content ------------------
+    if st.session_state.page == "Home":
+        st.markdown(
+            "<h1 style='text-align:center;'>Love in the Line of Fire</h1>",
+            unsafe_allow_html=True
+        )
+    elif st.session_state.page == "Journey":
+        st.markdown("<h1>Journey of a Young Mind</h1>", unsafe_allow_html=True)
+        st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+    elif st.session_state.page == "Smiley":
+        st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
+        st.write("📅 **Will be uploaded on 14th Feb, 2026**")
