@@ -6,12 +6,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Default Streamlit UI ------------------
+# ------------------ Hide Streamlit Menu & Footer ------------------
 st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -19,48 +18,30 @@ header {visibility: hidden;}
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
+# ------------------ FIXED SIDEBAR (ALWAYS OPEN) ------------------
+with st.sidebar:
+    st.title("Menu")
 
-# ------------------ Password Protected Home Page ------------------
-HOME_PASSWORD = "1234"  # 🔑 Change this to your desired password
+    if st.button("🏠 Home"):
+        st.session_state.page = "Home"
 
-if not st.session_state.authenticated:
-    st.write("🔒 Enter Passcode to access the website:")
-    password_input = st.text_input("Passcode", type="password")
-    if st.button("Enter Passcode"):
-        if password_input == HOME_PASSWORD:
-            st.session_state.authenticated = True
-            st.success("✅ Access granted!")
-        else:
-            st.error("❌ Incorrect passcode")
+    if st.button("📖 Journey of a Young Mind"):
+        st.session_state.page = "Journey"
 
-# ------------------ SHOW SIDEBAR ONLY IF AUTHENTICATED ------------------
-if st.session_state.authenticated:
-    # ------------------ Sidebar ------------------
-    with st.sidebar:
-        st.title("Menu")
+    if st.button("😊 Smiley"):
+        st.session_state.page = "Smiley"
 
-        if st.button("🏠 Home"):
-            st.session_state.page = "Home"
+# ------------------ MAIN CONTENT ------------------
+if st.session_state.page == "Home":
+    st.markdown(
+        "<h1 style='text-align:center;'>Love in the Line of Fire</h1>",
+        unsafe_allow_html=True
+    )
 
-        if st.button("📖 Journey of a Young Mind"):
-            st.session_state.page = "Journey"
+elif st.session_state.page == "Journey":
+    st.markdown("<h1>Journey of a Young Mind</h1>", unsafe_allow_html=True)
+    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
 
-        if st.button("😊 Smiley"):
-            st.session_state.page = "Smiley"
-
-    # ------------------ Main Content ------------------
-    if st.session_state.page == "Home":
-        st.markdown(
-            "<h1 style='text-align:center;'>Love in the Line of Fire</h1>",
-            unsafe_allow_html=True
-        )
-
-    elif st.session_state.page == "Journey":
-        st.markdown("<h1>Journey of a Young Mind</h1>", unsafe_allow_html=True)
-        st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
-    elif st.session_state.page == "Smiley":
-        st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
-        st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+elif st.session_state.page == "Smiley":
+    st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
+    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
