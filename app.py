@@ -6,19 +6,34 @@ st.set_page_config(
     layout="centered"
 )
 
-# ------------------ Hide Streamlit UI ------------------
+# ------------------ Custom CSS ------------------
 st.markdown(
     """
     <style>
+    /* Hide Streamlit UI */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
-    .menu-box {
-        border: 1px solid #ddd;
-        padding: 15px;
-        border-radius: 10px;
+
+    /* Menu button (top-left) */
+    .menu-btn {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1001;
+    }
+
+    /* Side menu panel */
+    .side-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 260px;
         background-color: #f9f9f9;
-        margin-bottom: 20px;
+        padding: 20px;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+        z-index: 1000;
     }
     </style>
     """,
@@ -32,13 +47,17 @@ if "page" not in st.session_state:
 if "menu_open" not in st.session_state:
     st.session_state.menu_open = False
 
-# ------------------ Menu Toggle Button ------------------
-if st.button("☰ Menu"):
+# ------------------ Menu Button (Top Left) ------------------
+st.markdown('<div class="menu-btn">', unsafe_allow_html=True)
+if st.button("☰"):
     st.session_state.menu_open = not st.session_state.menu_open
+st.markdown('</div>', unsafe_allow_html=True)
 
-# ------------------ CUSTOM MENU (NOT SIDEBAR) ------------------
+# ------------------ Side Menu (LEFT SLIDE PANEL) ------------------
 if st.session_state.menu_open:
-    st.markdown('<div class="menu-box">', unsafe_allow_html=True)
+    st.markdown('<div class="side-menu">', unsafe_allow_html=True)
+
+    st.markdown("### Menu")
 
     if st.button("🏠 Home"):
         st.session_state.page = "Home"
