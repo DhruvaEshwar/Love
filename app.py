@@ -40,10 +40,6 @@ if not st.session_state.authenticated:
 col1, col2 = st.columns([1, 4])  # 1/5th sidebar, 4/5th main content
 
 with col1:
-    # Vertical separator
-    st.markdown("""
-        <div style='border-right:2px solid #cccccc; height:100vh; padding-right:10px;'>
-    """, unsafe_allow_html=True)
     st.markdown("## Menu")
     if st.button("🏠 Home"):
         st.session_state.page = "Home"
@@ -51,7 +47,6 @@ with col1:
         st.session_state.page = "Journey"
     if st.button("😊 Smiley"):
         st.session_state.page = "Smiley"
-    st.markdown("</div>", unsafe_allow_html=True)  # close the div
 
 with col2:
     # ------------------ Main Content ------------------
@@ -66,4 +61,3 @@ with col2:
     elif st.session_state.page == "Smiley":
         st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
         st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
