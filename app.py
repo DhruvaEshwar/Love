@@ -6,12 +6,13 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Default Streamlit UI ------------------
+# ------------------ Hide Streamlit Default UI ------------------
 st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}
-header {visibility: hidden;}
 footer {visibility: hidden;}
+header {visibility: hidden;}
+[data-testid="stSidebarNav"] {display: none;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -22,26 +23,32 @@ if "page" not in st.session_state:
 if "menu_open" not in st.session_state:
     st.session_state.menu_open = False
 
-# ------------------ TOP-LEFT MENU BUTTON ------------------
-col1, col2 = st.columns([1, 20])
+# ------------------ TOP-LEFT ☰ BUTTON ------------------
+menu = st.button("☰", key="menu_btn")
 
-with col1:
-    if st.button("☰"):
-        st.session_state.menu_open = not st.session_state.menu_open
+if menu:
+    st.session_state.menu_open = not st.session_state.menu_open
+    st.rerun()
 
-# ------------------ SIDEBAR (REAL STREAMLIT SIDEBAR) ------------------
+# ------------------ SIDEBAR CONTENT ------------------
 if st.session_state.menu_open:
     with st.sidebar:
         st.title("Menu")
 
         if st.button("🏠 Home"):
             st.session_state.page = "Home"
+            st.session_state.menu_open = False
+            st.rerun()
 
         if st.button("📖 Journey of a Young Mind"):
             st.session_state.page = "Journey"
+            st.session_state.menu_open = False
+            st.rerun()
 
         if st.button("😊 Smiley"):
             st.session_state.page = "Smiley"
+            st.session_state.menu_open = False
+            st.rerun()
 
 # ------------------ MAIN CONTENT ------------------
 if st.session_state.page == "Home":
@@ -57,4 +64,3 @@ elif st.session_state.page == "Journey":
 elif st.session_state.page == "Smiley":
     st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
     st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
