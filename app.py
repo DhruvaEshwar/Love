@@ -6,12 +6,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Streamlit Top Right Buttons ------------------
+# ------------------ Hide ONLY Top Right Buttons ------------------
 st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}  /* hides Streamlit menu (three dots + fork + GitHub) */
 footer {visibility: hidden;}    /* hides footer */
-header {visibility: hidden;}    /* optional, hides top header */
 </style>
 """, unsafe_allow_html=True)
 
