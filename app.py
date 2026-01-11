@@ -1,4 +1,4 @@
-import streamlit as st
+mport streamlit as st
 
 # ------------------ Page Config ------------------
 st.set_page_config(
@@ -6,13 +6,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Top Right Fork / View Code (Streamlit Cloud) ------------------
+# ------------------ Hide Default Streamlit UI ------------------
 st.markdown("""
 <style>
-/* Hide the fork / GitHub / share buttons on Streamlit Cloud */
-.css-1rs6os.edgvbvh3 {visibility: hidden !important;}
-#MainMenu {visibility: hidden;}  /* hides three dots menu */
-footer {visibility: hidden;}    /* hides footer */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -23,48 +22,45 @@ if "page" not in st.session_state:
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
-# ------------------ PASSWORD ------------------
-HOME_PASSWORD = "1234"  # 🔑 Change this to your password
+# ------------------ Password Protected Home Page ------------------
+HOME_PASSWORD = "1234"  # 🔑 Change this to your desired password
 
-# ------------------ AUTHENTICATION ------------------
 if not st.session_state.authenticated:
     st.write("🔒 Enter Passcode to access the website:")
-    password_input = st.text_input("Passcode", type="password", key="pwd")
+    password_input = st.text_input("Passcode", type="password")
     if st.button("Enter Passcode"):
         if password_input == HOME_PASSWORD:
             st.session_state.authenticated = True
             st.success("✅ Access granted!")
         else:
             st.error("❌ Incorrect passcode")
-    st.stop()
 
-# ------------------ MAIN WEBSITE (ONLY AFTER AUTH) ------------------
-# From here on, st.session_state.authenticated is True
+# ------------------ SHOW SIDEBAR ONLY IF AUTHENTICATED ------------------
+if st.session_state.authenticated:
+    # ------------------ Sidebar ------------------
+    with st.sidebar:
+        st.title("Menu")
 
-# ------------------ Sidebar ------------------
-with st.sidebar:
-    st.title("Menu")
+        if st.button("🏠 Home"):
+            st.session_state.page = "Home"
 
-    if st.button("🏠 Home"):
-        st.session_state.page = "Home"
+        if st.button("📖 Journey of a Young Mind"):
+            st.session_state.page = "Journey"
 
-    if st.button("📖 Journey of a Young Mind"):
-        st.session_state.page = "Journey"
+        if st.button("😊 Smiley"):
+            st.session_state.page = "Smiley"
 
-    if st.button("😊 Smiley"):
-        st.session_state.page = "Smiley"
+    # ------------------ Main Content ------------------
+    if st.session_state.page == "Home":
+        st.markdown(
+            "<h1 style='text-align:center;'>Love in the Line of Fire</h1>",
+            unsafe_allow_html=True
+        )
 
-# ------------------ Main Content ------------------
-if st.session_state.page == "Home":
-    st.markdown(
-        "<h1 style='text-align:center;'>Love in the Line of Fire</h1>",
-        unsafe_allow_html=True
-    )
+    elif st.session_state.page == "Journey":
+        st.markdown("<h1>Journey of a Young Mind</h1>", unsafe_allow_html=True)
+        st.write("📅 **Will be uploaded on 14th Feb, 2026**")
 
-elif st.session_state.page == "Journey":
-    st.markdown("<h1>Journey of a Young Mind</h1>", unsafe_allow_html=True)
-    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
-elif st.session_state.page == "Smiley":
-    st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
-    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+    elif st.session_state.page == "Smiley":
+        st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
+        st.write("📅 **Will be uploaded on 14th Feb, 2026**")
