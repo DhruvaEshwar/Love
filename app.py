@@ -6,12 +6,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Extra Streamlit UI ------------------
+# ------------------ Hide Streamlit Menu & Footer ------------------
 st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -19,17 +18,18 @@ header {visibility: hidden;}
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
-# ------------------ SIDEBAR (ALWAYS VISIBLE) ------------------
-st.sidebar.title("Menu")
+# ------------------ FIXED SIDEBAR (ALWAYS OPEN) ------------------
+with st.sidebar:
+    st.title("Menu")
 
-if st.sidebar.button("🏠 Home"):
-    st.session_state.page = "Home"
+    if st.button("🏠 Home"):
+        st.session_state.page = "Home"
 
-if st.sidebar.button("📖 Journey of a Young Mind"):
-    st.session_state.page = "Journey"
+    if st.button("📖 Journey of a Young Mind"):
+        st.session_state.page = "Journey"
 
-if st.sidebar.button("😊 Smiley"):
-    st.session_state.page = "Smiley"
+    if st.button("😊 Smiley"):
+        st.session_state.page = "Smiley"
 
 # ------------------ MAIN CONTENT ------------------
 if st.session_state.page == "Home":
@@ -45,4 +45,3 @@ elif st.session_state.page == "Journey":
 elif st.session_state.page == "Smiley":
     st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
     st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
