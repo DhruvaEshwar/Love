@@ -15,12 +15,12 @@ st.markdown(
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    /* Menu button - absolute top-left */
+    /* Menu button */
     .menu-btn {
         position: fixed;
         top: 8px;
         left: 8px;
-        z-index: 2001;
+        z-index: 3000;
     }
 
     /* Side menu */
@@ -28,18 +28,18 @@ st.markdown(
         position: fixed;
         top: 0;
         left: 0;
-        height: 100%;
         width: 260px;
+        height: 100vh;
         background-color: #f9f9f9;
         padding: 20px;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+        box-shadow: 2px 0 12px rgba(0,0,0,0.2);
         z-index: 2000;
     }
 
-    /* Push content right when menu is open */
-    .content-shift {
-        margin-left: 260px;
-        transition: margin-left 0.2s ease;
+    /* Shift ENTIRE app right */
+    .shift-right {
+        transform: translateX(260px);
+        transition: transform 0.25s ease;
     }
     </style>
     """,
@@ -59,43 +59,29 @@ if st.button("☰"):
     st.session_state.menu_open = not st.session_state.menu_open
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ------------------ Side Menu ------------------
+# ------------------ Inject shift class ------------------
 if st.session_state.menu_open:
-    st.markdown('<div class="side-menu">', unsafe_allow_html=True)
-    st.markdown("### Menu")
-
-    if st.button("🏠 Home"):
-        st.session_state.page = "Home"
-        st.session_state.menu_open = False
-
-    if st.button("📖 Journey of a Young Mind"):
-        st.session_state.page = "Journey"
-        st.session_state.menu_open = False
-
-    if st.button("😊 Smiley"):
-        st.session_state.page = "Smiley"
-        st.session_state.menu_open = False
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ------------------ Content Wrapper ------------------
-content_class = "content-shift" if st.session_state.menu_open else ""
-
-st.markdown(f'<div class="{content_class}">', unsafe_allow_html=True)
-
-# ------------------ Pages ------------------
-if st.session_state.page == "Home":
     st.markdown(
-        "<h1 style='text-align:center;'>Love in the Line of Fire</h1>",
+        """
+        <script>
+        const app = window.parent.document.querySelector('section.main');
+        if (app) { app.classList.add('shift-right'); }
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    st.markdown(
+        """
+        <script>
+        const app = window.parent.document.querySelector('section.main');
+        if (app) { app.classList.remove('shift-right'); }
+        </script>
+        """,
         unsafe_allow_html=True
     )
 
-elif st.session_state.page == "Journey":
-    st.markdown("<h1>Journey of a Young Mind</h1>", unsafe_allow_html=True)
-    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+# ------------------ Side Menu ------------------
+if st.session_state.menu_open:
+    st.markdown('<div class="side-menu">', unsafe_allow_html=Tr
 
-elif st.session_state.page == "Smiley":
-    st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
-    st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
-st.markdown('</div>', unsafe_allow_html=True)
