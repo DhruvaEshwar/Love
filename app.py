@@ -6,7 +6,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide Default Streamlit UI ------------------
+# ------------------ Hide Streamlit Menu & Footer ------------------
 st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}
@@ -22,9 +22,10 @@ if "page" not in st.session_state:
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
-# ------------------ Password Protected Home Page ------------------
+# ------------------ PASSWORD ------------------
 HOME_PASSWORD = "1234"  # 🔑 Change this to your desired password
 
+# ------------------ AUTHENTICATION ------------------
 if not st.session_state.authenticated:
     st.write("🔒 Enter Passcode to access the website:")
     password_input = st.text_input("Passcode", type="password")
@@ -32,11 +33,13 @@ if not st.session_state.authenticated:
         if password_input == HOME_PASSWORD:
             st.session_state.authenticated = True
             st.success("✅ Access granted!")
+            st.experimental_rerun()  # immediately show Home page + sidebar
         else:
             st.error("❌ Incorrect passcode")
 
-# ------------------ SHOW SIDEBAR ONLY IF AUTHENTICATED ------------------
+# ------------------ MAIN WEBSITE (ONLY AFTER AUTH) ------------------
 if st.session_state.authenticated:
+
     # ------------------ Sidebar ------------------
     with st.sidebar:
         st.title("Menu")
