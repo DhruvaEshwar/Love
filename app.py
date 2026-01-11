@@ -22,29 +22,28 @@ if "page" not in st.session_state:
 if "menu_open" not in st.session_state:
     st.session_state.menu_open = False
 
-# ------------------ Top Left Menu Button ------------------
+# ------------------ Menu Button (TOP LEFT, ALWAYS VISIBLE) ------------------
 st.markdown("""
 <style>
 .menu-btn {
     position: fixed;
     top: 15px;
     left: 15px;
-    z-index: 1001;
+    z-index: 2000;   /* 🔥 HIGHER than sidebar */
 }
 .menu-btn button {
-    font-size: 24px;
+    font-size: 26px;
     padding: 4px 10px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-with st.container():
-    st.markdown('<div class="menu-btn">', unsafe_allow_html=True)
-    if st.button("☰"):
-        st.session_state.menu_open = not st.session_state.menu_open
-    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('<div class="menu-btn">', unsafe_allow_html=True)
+if st.button("☰"):
+    st.session_state.menu_open = not st.session_state.menu_open
+st.markdown('</div>', unsafe_allow_html=True)
 
-# ------------------ Sidebar (Slide from LEFT) ------------------
+# ------------------ Sidebar & Content Layout ------------------
 sidebar_width = "260px" if st.session_state.menu_open else "0px"
 content_margin = "260px" if st.session_state.menu_open else "0px"
 
@@ -60,7 +59,7 @@ st.markdown(f"""
     overflow-x: hidden;
     transition: 0.3s;
     padding-top: 80px;
-    z-index: 1000;
+    z-index: 1000;   /* 👈 LOWER than menu button */
 }}
 
 .side-menu button {{
@@ -107,4 +106,3 @@ elif st.session_state.page == "Smiley":
     st.write("📅 **Will be uploaded on 14th Feb, 2026**")
 
 st.markdown('</div>', unsafe_allow_html=True)
-
