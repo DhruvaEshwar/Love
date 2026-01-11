@@ -6,10 +6,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ Hide ONLY Top Right Buttons ------------------
+# ------------------ Hide Top Right Fork / View Code (Streamlit Cloud) ------------------
 st.markdown("""
 <style>
-#MainMenu {visibility: hidden;}  /* hides Streamlit menu (three dots + fork + GitHub) */
+/* Hide the fork / GitHub / share buttons on Streamlit Cloud */
+.css-1rs6os.edgvbvh3 {visibility: hidden !important;}
+#MainMenu {visibility: hidden;}  /* hides three dots menu */
 footer {visibility: hidden;}    /* hides footer */
 </style>
 """, unsafe_allow_html=True)
@@ -34,7 +36,6 @@ if not st.session_state.authenticated:
             st.success("✅ Access granted!")
         else:
             st.error("❌ Incorrect passcode")
-    # Stop rendering anything else until authenticated
     st.stop()
 
 # ------------------ MAIN WEBSITE (ONLY AFTER AUTH) ------------------
