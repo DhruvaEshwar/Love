@@ -5,6 +5,16 @@ st.set_page_config(
     page_title="Love in the Line of Fire",
     layout="centered"
 )
+st.markdown(
+    """
+    <style>
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # ------------------ Session State ------------------
 if "page" not in st.session_state:
