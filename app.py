@@ -28,14 +28,13 @@ HOME_PASSWORD = "1234"  # 🔑 Change this to your desired password
 # ------------------ AUTHENTICATION ------------------
 if not st.session_state.authenticated:
     st.write("🔒 Enter Passcode to access the website:")
-    password_input = st.text_input("Passcode", type="password")
-    if st.button("Enter Passcode"):
-        if password_input == HOME_PASSWORD:
-            st.session_state.authenticated = True
-            st.success("✅ Access granted!")
-            st.experimental_rerun()  # immediately show Home page + sidebar
-        else:
-            st.error("❌ Incorrect passcode")
+    password_input = st.text_input("Passcode", type="password", key="pwd")
+    enter = st.button("Enter Passcode")
+    if enter and password_input == HOME_PASSWORD:
+        st.session_state.authenticated = True
+        st.success("✅ Access granted!")
+    elif enter and password_input != HOME_PASSWORD:
+        st.error("❌ Incorrect passcode")
 
 # ------------------ MAIN WEBSITE (ONLY AFTER AUTH) ------------------
 if st.session_state.authenticated:
@@ -67,4 +66,3 @@ if st.session_state.authenticated:
     elif st.session_state.page == "Smiley":
         st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
         st.write("📅 **Will be uploaded on 14th Feb, 2026**")
-
