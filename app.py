@@ -23,11 +23,12 @@ if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 if "menu_open" not in st.session_state:
-    st.session_state.menu_open = True   # menu opens on first load
+    st.session_state.menu_open = True  # open on first load
 
-# ------------------ Top Menu Toggle Button ------------------
+# ------------------ Menu Toggle Button ------------------
 if st.button("☰ Menu"):
     st.session_state.menu_open = not st.session_state.menu_open
+    st.rerun()  # 🔴 THIS IS THE FIX
 
 # ------------------ Sidebar Menu (BUTTONS) ------------------
 if st.session_state.menu_open:
@@ -36,12 +37,15 @@ if st.session_state.menu_open:
 
         if st.button("🏠 Home"):
             st.session_state.page = "Home"
+            st.rerun()
 
         if st.button("📖 Journey of a Young Mind"):
             st.session_state.page = "Journey"
+            st.rerun()
 
         if st.button("😊 Smiley"):
             st.session_state.page = "Smiley"
+            st.rerun()
 
 # ------------------ Pages ------------------
 if st.session_state.page == "Home":
@@ -57,4 +61,5 @@ elif st.session_state.page == "Journey":
 elif st.session_state.page == "Smiley":
     st.markdown("<h1>Smiley</h1>", unsafe_allow_html=True)
     st.write("📅 **Will be uploaded on 14th Feb, 2026**")
+
 
